@@ -2,16 +2,12 @@ import { useEffect, useState } from "react";
 import { FilesDragAndDrop } from "../../components/FilesDragAndDrop";
 import { ImportContainer, ImportTable, ProcessingContainer } from "./styles";
 import { api } from "../../services/api";
+import { CheckBox } from "../../components/CheckBox";
+import { FileState } from "./FileState";
 
 interface KeyValue {
   [key: string]: string;
 }
-
-const fileStates: KeyValue = {
-  waiting: 'Aguardando',
-  importing: 'Importando',
-  imported: 'Importado',
-};
 
 const processingStates: KeyValue = {
   waiting: 'Aguardando',
@@ -123,8 +119,17 @@ export function Import() {
                 return (
                   <tr key={item.path}>
                     <td>{item.name}</td>
-                    <td><input type="checkbox" checked={item.import} onChange={() => handleChangeCheck(item)} /></td>
-                    <td>{fileStates[item.state]}</td>
+                    <td>
+                      <CheckBox 
+                        labelChecked="Importar"
+                        labelNotChecked="Não Importar"
+                        checked={item.import} 
+                        onChange={() => handleChangeCheck(item)}
+                      />
+                    </td>
+                    <td>
+                      <FileState state={item.state} />
+                    </td>
                     <td>{item.currentLine}</td>
                   </tr>
                 )
